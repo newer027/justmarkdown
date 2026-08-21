@@ -1,6 +1,6 @@
 # JustMarkdown
 
-> Capture as Markdown. Publish as Image.
+> Document-to-Markdown API for RAG, agents, and humans.
 
 [![Website](https://img.shields.io/badge/website-justmarkdown.com-blue)](https://justmarkdown.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -8,59 +8,47 @@
 
 ## What is JustMarkdown?
 
-JustMarkdown is an all-in-one Markdown workspace for knowledge workers, developers, and students. It bridges the gap between AI-generated content and structured documentation by letting you capture, convert, and export Markdown in one place.
+JustMarkdown is developer infrastructure for converting any document to clean Markdown — with a Web workspace that makes the same engine accessible to everyone.
+
+**One product, two faces:**
+
+- **For developers:** Send PDF, Word, Excel, HTML, EPUB, or image files to our REST API and get structured Markdown back — ready for RAG pipelines, AI agents, and CI workflows. Includes an MCP server for Claude and Cursor integration.
+- **For non-developers:** The same engine powers a Web workspace with AI chat, 20+ format conversions, and beautiful image exports. No code required.
 
 ## Features
 
-### Capture from Anywhere
-- **AI Chat Export** — Extract ChatGPT, Claude, and Gemini conversations to clean Markdown
-- **Webpage to Markdown** — Convert any article or webpage to Markdown with a URL
-- **Screenshot to Markdown** — Extract text from screenshots
-- **Image to Markdown** — Convert images to Markdown text
+### Developer API
+- **REST API** — `POST /api/v1/pdf-to-markdown` with multipart upload and JSON response
+- **MCP Server** — `@justmarkdown/mcp` for Claude Desktop, Cursor, and Windsurf
+- **API Key Management** — Self-serve keys with `jm_` prefix, naming, rotation, and revocation
+- **Pay-per-page Pricing** — $29/month for 2,500 pages; cached files don't consume quota
+- **High-accuracy Engine** — PP-StructureV3 + PaddleOCR VL for text and scanned PDFs
+- **AI Cleaning** — `useLlm` option for AI-enhanced Markdown output (2x page quota)
+- **Developer Docs** — Agent-first documentation with curl/Python/JS/TS examples and copy-as-markdown
 
-### 20+ Format Conversions
-**To Markdown:**
-- PDF → Markdown
-- Word → Markdown
-- HTML → Markdown
-- Excel → Markdown
-- CSV → Markdown
-- JSON → Markdown
-- YAML → Markdown
-- EPUB → Markdown
-- Tana → Markdown
-- Code → Markdown
-
-**From Markdown:**
-- Markdown → HTML
-- Markdown → PDF
-- Markdown → Word
-- Markdown → Rich Text
-- Markdown → Image (Twitter long-form / LinkedIn carousel PDF)
-
-### Beautiful Editor
-- **BlockSuite WYSIWYG** — Real-time preview with syntax highlighting (default)
-- **CodeMirror** — Lightweight code editor (fallback)
-- **Multiple themes** — Twitter, LinkedIn, and Minimal export styles
-- **Custom watermark** — Share creations with your branding
-
-### AI Skills
-- **AI Summarizer** — Summarize long Markdown documents
-- **Table Builder** — Generate Markdown tables from data
-- **Table Generator** — Create tables from natural language descriptions
-- **Extensible skill system** — Specialized AI workflows for content transformation
-
-### Credit System
-- **Free tier:** 50 credits on signup + 10 daily check-in credits (Chinese locale)
-- **Pro plan:** 3,000 credits per purchase
-- **Transparent model:** 1 credit = 1 AI chat / 1 image / 1 PDF page
+### Web Workspace
+- **BlockSuite WYSIWYG Editor** — Real-time preview with syntax highlighting
+- **AI Chat** — Document Q&A, summarization, and content transformation
+- **AI Skills** — 51 specialized AI prompt templates for Markdown workflows
+- **20+ Format Conversions** — PDF, Word, Excel, HTML, EPUB, JSON, CSV, YAML → Markdown and back
+- **Image Export** — Twitter long-form images, LinkedIn carousel PDFs
+- **Content Capture** — Export ChatGPT, Claude, and Gemini conversations to Markdown
 
 ## Pricing
 
-| Plan | Price (CN) | Price (Global) | Credits |
-|------|-----------|----------------|---------|
-| Free | ¥0 | $0 | 50 signup + daily check-in |
-| Pro | ¥39 (one-time) | $8.9/mo | 3,000 per purchase |
+### API (for developers)
+
+| Plan | Price | Pages/month |
+|------|-------|-------------|
+| Free | $0 | 10 API pages + 50 Web pages (separate quotas) |
+| Pro API | $29/mo | 2,500 pages (includes useLlm, priority queue, webhooks) |
+
+### Web (for non-developers)
+
+| Plan | Price | Credits |
+|------|-------|---------|
+| Free | $0 | 50 credits on signup + daily check-in (CN) |
+| Pro | $8.9/mo | 3,000 credits per purchase |
 
 See [justmarkdown.com/pricing](https://justmarkdown.com/pricing) for details.
 
@@ -70,13 +58,15 @@ See [justmarkdown.com/pricing](https://justmarkdown.com/pricing) for details.
 - **Auth:** Clerk
 - **Database:** Supabase (PostgreSQL)
 - **Editor:** BlockSuite (AFFiNE) + CodeMirror
+- **OCR Engine:** PaddleOCR (PP-StructureV3 + PaddleOCR VL)
 - **Hosting:** Cloudflare (OpenNext)
-- **Payments:** Creem / Zpay / Waffo
+- **Payments:** Waffo / Creem / Zpay
 - **i18n:** English, 中文, Deutsch, 日本語
 
 ## Links
 
 - **Website:** [justmarkdown.com](https://justmarkdown.com)
+- **Developer Docs:** [justmarkdown.com/developers](https://justmarkdown.com/developers)
 - **Pricing:** [justmarkdown.com/pricing](https://justmarkdown.com/pricing)
 - **Contact:** hi@justmarkdown.com
 - **Full source (private):** [newer027/justmarkdown-src](https://github.com/newer027/justmarkdown-src)
