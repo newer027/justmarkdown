@@ -1,5 +1,7 @@
 # JustMarkdown MCP server & CLI
 
+> Convert PDF, Office, EPUB and web pages to clean Markdown over MCP.
+>
 > Client source for the JustMarkdown MCP server and `justmarkdown` CLI.
 
 This repository contains the **client** that connects Claude Desktop, Cursor,
