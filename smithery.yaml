@@ -1,0 +1,23 @@
+# Smithery configuration — https://smithery.ai/docs/config#smitheryyaml
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      justmarkdownApiKey:
+        type: string
+        title: JustMarkdown API key (optional)
+        description: >-
+          A jm_live_… key from https://justmarkdown.com/settings?section=apiKeys.
+          Anonymous use works without a key but is limited to a few text
+          conversions per day; OCR and large uploads require a key.
+        format: password
+  exampleConfig: {}
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', 'justmarkdown@latest'],
+      env: config.justmarkdownApiKey
+        ? { JUSTMARKDOWN_API_KEY: config.justmarkdownApiKey }
+        : {},
+    })
