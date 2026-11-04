@@ -1,0 +1,31 @@
+name: Convert documents to Markdown
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "docs/**/*.pdf"
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Convert PDFs
+        env:
+          JUSTMARKDOWN_API_KEY: ${{ secrets.JUSTMARKDOWN_API_KEY }}
+        run: |
+          mkdir -p markdown
+          for file in docs/*.pdf; do
+            name="$(basename "$file" .pdf)"
+            npx -y justmarkdown convert "$file" -o "markdown/${name}.md"
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: markdown
+          path: markdown/

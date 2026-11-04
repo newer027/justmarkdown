@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest a tool, flag, or client improvement
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: A CLI flag, MCP tool, client example, or documentation change
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you tried
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This does not require exposing the hosted engine's source code
+          required: true
+        - label: This does not ask for a second local conversion engine
+          required: true

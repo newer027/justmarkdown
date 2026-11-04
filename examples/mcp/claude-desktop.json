@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "justmarkdown": {
+      "command": "npx",
+      "args": ["-y", "justmarkdown"]
+    }
+  }
+}

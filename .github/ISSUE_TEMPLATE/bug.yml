@@ -1,0 +1,59 @@
+name: Bug report
+description: The MCP bridge or CLI did something wrong
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not paste API keys, file contents, or presigned upload URLs.
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      description: Output of `npx -y justmarkdown --version`
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Surface
+      options:
+        - MCP stdio bridge
+        - Remote endpoint (/api/mcp)
+        - CLI
+        - GitHub Actions
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command or MCP call
+      description: The exact command, tool name and arguments
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed result
+      description: Include the stable error code if there is one
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Node.js version, OS, and MCP client
+      placeholder: Node 20.11, macOS 15, Claude Desktop 1.x
+  - type: input
+    id: region
+    attributes:
+      label: Network region (optional)
+      description: Helps separate quota/network issues from client bugs

@@ -1,76 +1,113 @@
-# JustMarkdown
+# JustMarkdown MCP server & CLI
 
-> Document-to-Markdown API for RAG, agents, and humans.
+> Client source for the JustMarkdown MCP server and `justmarkdown` CLI.
 
-[![Website](https://img.shields.io/badge/website-justmarkdown.com-blue)](https://justmarkdown.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Languages](https://img.shields.io/badge/i18n-4%20languages-green)](https://justmarkdown.com)
+This repository contains the **client** that connects Claude Desktop, Cursor,
+Claude Code, Codex, other MCP clients, and shell scripts to the hosted
+JustMarkdown conversion engine:
 
-## What is JustMarkdown?
+- **MCP stdio bridge** — `npx -y justmarkdown`
+- **Remote MCP endpoint** — `https://justmarkdown.com/api/mcp`
+- **CLI** — `npx -y justmarkdown convert ./paper.pdf -o paper.md`
+- **Examples** — client configs and a GitHub Actions workflow
 
-JustMarkdown is developer infrastructure for converting any document to clean Markdown — with a Web workspace that makes the same engine accessible to everyone.
+The hosted engine, account system, and billing code are **not** in this
+repository. The client is thin on purpose: it forwards to one endpoint, so the
+tool contract and the billing path cannot drift between surfaces.
 
-**One product, two faces:**
+## Quick start
 
-- **For developers:** Send PDF, Word, Excel, HTML, EPUB, or image files to our REST API and get structured Markdown back — ready for RAG pipelines, AI agents, and CI workflows. Includes an MCP server for Claude and Cursor integration.
-- **For non-developers:** The same engine powers a Web workspace with AI chat, 20+ format conversions, and beautiful image exports. No code required.
+### Remote MCP (nothing to install)
 
-## Features
+```json
+{
+  "mcpServers": {
+    "justmarkdown": {
+      "url": "https://justmarkdown.com/api/mcp"
+    }
+  }
+}
+```
 
-### Developer API
-- **REST API** — `POST /api/v1/pdf-to-markdown` with multipart upload and JSON response
-- **MCP Server** — `@justmarkdown/mcp` for Claude Desktop, Cursor, and Windsurf
-- **API Key Management** — Self-serve keys with `jm_` prefix, naming, rotation, and revocation
-- **Pay-per-page Pricing** — $29/month for 2,500 pages; cached files don't consume quota
-- **High-accuracy Engine** — PP-StructureV3 + PaddleOCR VL for text and scanned PDFs
-- **AI Cleaning** — `useLlm` option for AI-enhanced Markdown output (2x page quota)
-- **Developer Docs** — Agent-first documentation with curl/Python/JS/TS examples and copy-as-markdown
+### stdio bridge
 
-### Web Workspace
-- **BlockSuite WYSIWYG Editor** — Real-time preview with syntax highlighting
-- **AI Chat** — Document Q&A, summarization, and content transformation
-- **AI Skills** — 51 specialized AI prompt templates for Markdown workflows
-- **20+ Format Conversions** — PDF, Word, Excel, HTML, EPUB, JSON, CSV, YAML → Markdown and back
-- **Image Export** — Twitter long-form images, LinkedIn carousel PDFs
-- **Content Capture** — Export ChatGPT, Claude, and Gemini conversations to Markdown
+```json
+{
+  "mcpServers": {
+    "justmarkdown": {
+      "command": "npx",
+      "args": ["-y", "justmarkdown"]
+    }
+  }
+}
+```
 
-## Pricing
+```bash
+# Claude Code
+claude mcp add justmarkdown -- npx -y justmarkdown
 
-### API (for developers)
+# Codex
+codex mcp add justmarkdown -- npx -y justmarkdown
+```
 
-| Plan | Price | Pages/month |
-|------|-------|-------------|
-| Free | $0 | 10 API pages + 50 Web pages (separate quotas) |
-| Pro API | $29/mo | 2,500 pages (includes useLlm, priority queue, webhooks) |
+Running the package with no arguments starts the MCP stdio server.
 
-### Web (for non-developers)
+### CLI
 
-| Plan | Price | Credits |
-|------|-------|---------|
-| Free | $0 | 50 credits on signup + daily check-in (CN) |
-| Pro | $8.9/mo | 3,000 credits per purchase |
+```bash
+npx -y justmarkdown convert ./paper.pdf -o paper.md
+npx -y justmarkdown convert https://example.com/report.pdf -o report.md
+cat notes.txt | npx -y justmarkdown convert - --filename notes.txt
+npx -y justmarkdown --help
+npx -y justmarkdown --version
+```
 
-See [justmarkdown.com/pricing](https://justmarkdown.com/pricing) for details.
+## Tools
 
-## Tech Stack
+| Tool | What it does |
+|------|--------------|
+| `convert_url` | Fetch a public URL and convert it to Markdown |
+| `convert_base64` | Convert base64 file bytes to Markdown |
+| `request_upload_url` | Get a short-lived URL for a large upload (API key) |
+| `convert_upload` | Convert an uploaded file (API key) |
+| `list_supported_formats` | List formats and per-tier limits |
+| `usage_status` | Check tier, daily anonymous quota, and credits |
 
-- **Framework:** Next.js
-- **Auth:** Clerk
-- **Database:** Supabase (PostgreSQL)
-- **Editor:** BlockSuite (AFFiNE) + CodeMirror
-- **OCR Engine:** PaddleOCR (PP-StructureV3 + PaddleOCR VL)
-- **Hosting:** Cloudflare (OpenNext)
-- **Payments:** Waffo / Creem / Zpay
-- **i18n:** English, 中文, Deutsch, 日本語
+## Limits and billing boundary
 
-## Links
+- **Anonymous:** a few text conversions per day. No account or key.
+- **Account API key:** 1 credit per MCP/CLI conversion, including a scanned PDF
+  in that call. OCR, large uploads, and higher limits require a key.
+- **Web app:** text-layer PDFs and on-device scanned pages are free; server-side
+  Structured OCR is 1 credit per page and uploads the file.
 
-- **Website:** [justmarkdown.com](https://justmarkdown.com)
-- **Developer Docs:** [justmarkdown.com/developers](https://justmarkdown.com/developers)
-- **Pricing:** [justmarkdown.com/pricing](https://justmarkdown.com/pricing)
-- **Contact:** hi@justmarkdown.com
-- **Full source (private):** [newer027/justmarkdown-src](https://github.com/newer027/justmarkdown-src)
+The MCP/CLI surface and the web app share one account and one credit balance,
+but they are priced differently on purpose. “Text-layer PDF is free” is a web
+promise; “1 credit per conversion” is an MCP/CLI promise.
+
+Create a key at <https://justmarkdown.com/settings?section=apiKeys>.
+
+## Repository layout
+
+```
+mcp-server/   npm package `justmarkdown` (MCP bridge + CLI)
+cli/          pointer to the CLI that ships in the same package
+examples/     client configs and a GitHub Actions workflow
+```
+
+## Corrections
+
+This project is maintained by JustMarkdown. If a free quota, limit, endpoint, or
+output shape is wrong, open an issue with the package version, the exact command
+or MCP call, the observed result, the expected result, and the date/region.
+
+Corrections from other MCP providers are welcome. Please state your affiliation.
+
+- Security: see `SECURITY.md`; email **hi@justmarkdown.com**, do not open a public issue.
+- Contributing: see `CONTRIBUTING.md`.
+- Setup guide: <https://justmarkdown.com/mcp>
+- Server card: <https://justmarkdown.com/.well-known/mcp/server-card.json>
 
 ## License
 
-[MIT](https://opensource.org/licenses/MIT)
+MIT

@@ -1,0 +1,46 @@
+{
+  "name": "justmarkdown",
+  "version": "2.1.0",
+  "mcpName": "io.github.newer027/justmarkdown",
+  "description": "MCP stdio bridge and CLI for JustMarkdown \u2014 convert documents and URLs to Markdown",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "justmarkdown": "index.js",
+    "justmarkdown-mcp": "index.js"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.9"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "markdown",
+    "document",
+    "pdf",
+    "docx",
+    "ocr",
+    "ai",
+    "agent",
+    "justmarkdown"
+  ],
+  "author": "JustMarkdown",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.28.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newer027/justmarkdown.git",
+    "directory": "mcp-server"
+  },
+  "homepage": "https://justmarkdown.com/mcp",
+  "bugs": {
+    "url": "https://github.com/newer027/justmarkdown/issues"
+  }
+}

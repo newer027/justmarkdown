@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "justmarkdown": {
+      "url": "https://justmarkdown.com/api/mcp",
+      "headers": {
+        "x-jm-mcp-client": "directory"
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: mailto:hi@justmarkdown.com
+    about: Please do not open a public issue for a security problem.
+  - name: Setup guide
+    url: https://justmarkdown.com/mcp
+    about: Install and configuration help.

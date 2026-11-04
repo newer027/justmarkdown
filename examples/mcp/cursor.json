@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "justmarkdown": {
+      "command": "npx",
+      "args": ["-y", "justmarkdown"],
+      "env": {
+        "JUSTMARKDOWN_API_KEY": "jm_live_replace_me"
+      }
+    }
+  }
+}
