@@ -27,7 +27,11 @@
     "ocr",
     "ai",
     "agent",
-    "justmarkdown"
+    "justmarkdown",
+    "pdf-to-markdown",
+    "document-to-markdown",
+    "markdown-converter",
+    "cli"
   ],
   "author": "JustMarkdown",
   "license": "MIT",
